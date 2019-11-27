@@ -13,12 +13,16 @@ class UsersController < ApplicationController
   #   #   session[:name] = params[:name]
   #   # end
   # end
+  #
+  # def create
+  #   @user = User.find_by(name: params[:name])
+  #   return head(:forbidden) unless @user.authenticate(params[:password])
+  #   session[:user_id] = @user.id
+  # end
 
   def create
-    @user = User.find_by(name: params[:name])
-    return head(:forbidden) unless @user.authenticate(params[:password])
-    session[:user_id] = @user.id
-  end
+     User.create(user_params)
+   end
 
   def authenticate
     # if @user.
@@ -27,7 +31,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :password_confirmation)
+    params.require(:user).permit(:username, :password_digest)
   end
 
 end
